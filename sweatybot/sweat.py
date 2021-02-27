@@ -1,4 +1,5 @@
 # define actual systems here
+import config
 
 #define Bot Class 
 class SweatyBot(discord.Client):

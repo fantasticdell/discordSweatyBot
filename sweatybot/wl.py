@@ -26,3 +26,8 @@ class WarcraftLogs(object):
     def logtestmessage(self):
         message = "This is an initiated WarcraftLogs object \n base_url is ",self.BASE_URL
         return message
+
+
+#notes https://www.warcraftlogs.com/api/docs
+#authorization ui https://www.warcraftlogs.com/oauth/authorize
+#access token uri https://www.warcraftlogs.com/oauth/token

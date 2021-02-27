@@ -1,5 +1,6 @@
 # define actual systems here
-import config
+from sweatybot import config
+import discord
 
 #define Bot Class 
 class SweatyBot(discord.Client):

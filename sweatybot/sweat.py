@@ -1,18 +1,19 @@
 # define actual systems here
-from sweatybot import config
+#TODO reconsider naming convention for modules and class names, is this confusing?
 import discord
-
 #define Bot Class 
 class SweatyBot(discord.Client):
+    
+    def __init__(self, warcraftlogs_client):
+        super().__init__()
+        self.wl = warcraftlogs_client
+
     async def on_ready(self):
         print ('Online as {0}'.format(self.user))
 
+    async def on_message(self, message):
+        if message.author == self.user:
+            return
 
-#define WarcraftLogs client
-class WarcraftLogs(object):
-
-    BASE_URL = 'https://www.warcraftlogs.com:443/v2/'
-    ENCOUNTERS_PER_PAGE = 5000
-
-    def __init__(self, api_key):
-        self.api_key = api_key
+        if message.content.startswith('!test'):
+            await message.channel.send(self.wl.logtestmessage())

@@ -4,6 +4,7 @@ import discord
 import logging
 import asyncio
 import sweatybot.sweat as sweat
+import sweatybot.wl as wl
 #pip install -U python-dotenv
 from dotenv import load_dotenv
 from discord.ext import commands
@@ -14,7 +15,7 @@ from discord.ext import commands
 #store application functions in sweat.py
 
 #define logger
-#logger = logging.getLogger('discord')
+logger = logging.getLogger('discord')
 #change this to warning later, or define a log file 
 #https://discordpy.readthedocs.io/en/latest/logging.html
 #logger.basicConfig(level=logging.INFO)
@@ -42,12 +43,13 @@ else:
 key = "SWEATY_BOT_WARCRAFTLOGS_TOKEN"
 warcraftlogstoken = os.getenv(key)
 if warcraftlogstoken is None:
-    raise RuntimeError("SWEATY_BOT_DISCORD_TOKEN environment variable not set")
+    raise RuntimeError("SWEATY_BOT_WARCRAFTLOGS_TOKEN environment variable not set")
 else:
     print("Warcraft Logs API Tokencode discovered: ", warcraftlogstoken)
 
 
 #construct bot
-bot = sweat.SweatyBot()
-wlclient = sweat.WarcraftLogs(warcraftlogstoken)
+wlclient = wl.WarcraftLogs(warcraftlogstoken)
+bot = sweat.SweatyBot(wlclient)
+
 bot.run(discordtoken)

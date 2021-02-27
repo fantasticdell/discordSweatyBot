@@ -1,7 +1,9 @@
 import os
+#pip install -U discord.py
 import discord
 import logging
 import asyncio
+#pip install -U python-dotenv
 from dotenv import load_dotenv
 from discord.ext import commands
 from sweatybot import config
@@ -11,23 +13,27 @@ from sweatybot import sweat
 #store config / data structures in config.py
 #store application functions in sweat.py
 
+print("Sweaty Bot loading")
 # Set Discord API token
 # this is stored in .env as SWEATY_BOT_DISCORD_TOKEN and should be set before any build
-token = os.getenv("SWEATY_BOT_DISCORD_TOKEN")
+key = "SWEATY_BOT_DISCORD_TOKEN"
+#load .env into process
+load_dotenv()
+#pull our key pair
+token = os.getenv(key)
 
 if token is None:
     raise RuntimeError("SWEATY_BOT_DISCORD_TOKEN environment variable not set")
+else:
+    print("API Tokencode discovered: ", token)
 #end Set Discord API token
 
-@bot.event 
-async def on_ready():
-        print ('Online as {0.user}'.format(bot))
+#define Bot Class 
+class SweatyBot(discord.Client):
+    async def on_ready(self):
+        print ('Online as {0}'.format(self.user))
 
-
+#construct bot
+bot = SweatyBot()
 bot = commands.Bot(command_prefix="!sweaty")
-
-@bot.command()
-async def test(ctx):
-    await ctx.send("Test")
-
 bot.run(token)

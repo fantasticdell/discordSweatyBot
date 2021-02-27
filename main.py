@@ -1,2 +1,1 @@
-if __name__ == "__main__":
-    import sweatybot.app
+import sweatybot.app

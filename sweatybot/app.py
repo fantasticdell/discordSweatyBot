@@ -19,6 +19,9 @@ if token is None:
     raise RuntimeError("SWEATY_BOT_DISCORD_TOKEN environment variable not set")
 #end Set Discord API token
 
+@bot.event 
+async def on_ready():
+        print ('Online as {0.user}'.format(bot))
 
 
 bot = commands.Bot(command_prefix="!sweaty")

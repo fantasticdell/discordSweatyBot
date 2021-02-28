@@ -41,7 +41,7 @@ wlclient = wl.WarcraftLogs(keyValues['SWEATY_BOT_WARCRAFTLOGS_TOKEN'])
 bot = sweat.SweatyBot(wlclient,keyValues['SWEATY_BOT_DISCORD_PREFIX'])
 
 @bot.command()
-async def test(ctx, arg):
-    await ctx.send(arg)
+async def test(ctx, *args):
+    await ctx.send(' '.join(args))
 
 bot.run(keyValues['SWEATY_BOT_DISCORD_TOKEN'])

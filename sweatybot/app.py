@@ -23,7 +23,8 @@ print("Sweaty Bot loading")
 
 #Inherit expected config from .env
 keys = ['SWEATY_BOT_DISCORD_TOKEN',
-'SWEATY_BOT_WARCRAFTLOGS_TOKEN',
+'SWEATY_BOT_WARCRAFTLOGS_CLIENTID',
+'SWEATY_BOT_WARCRAFTLOGS_CLIENTSECRET',
 'SWEATY_BOT_DISCORD_PREFIX']
 
 keyValues = dict()
@@ -37,11 +38,12 @@ for key in keys:
         keyValues[key] = value
 
 #construct bot
-wlclient = wl.WarcraftLogs(keyValues['SWEATY_BOT_WARCRAFTLOGS_TOKEN'])
+wlclient = wl.WarcraftLogs(keyValues['SWEATY_BOT_WARCRAFTLOGS_CLIENTID'],
+keyValues['SWEATY_BOT_WARCRAFTLOGS_CLIENTSECRET'])
 bot = sweat.SweatyBot(wlclient,keyValues['SWEATY_BOT_DISCORD_PREFIX'])
 
 @bot.command()
-async def test(ctx, *args):
-    await ctx.send(' '.join(args))
+async def test(ctx):
+    await ctx.send(bot.wl.logtestmessage())
 
 bot.run(keyValues['SWEATY_BOT_DISCORD_TOKEN'])

@@ -9,7 +9,8 @@ from urllib import parse
 #define WarcraftLogs client
 class WarcraftLogs(object):
     #these should probably be in .env
-    BASE_URL = 'https://www.warcraftlogs.com/oauth/authorize'
+    BASE_URL = 'https://classic.warcraftlogs.com/api/v2/client'
+    AUTHORIZE_URL = 'https://www.warcraftlogs.com/oauth/authorize'
     TOKEN_URL = 'https://www.warcraftlogs.com/oauth/token'
     REDIRECT_URL = 'https://www.warcraftlogs.com/api/docs'
     ENCOUNTERS_PER_PAGE = 5000
@@ -22,16 +23,16 @@ class WarcraftLogs(object):
 
 
 #_get will return content from warcraftlogs, when provided with the url path parameters
-    def _get(self, path, **kwargs):
-        params = {"api_key": self.api_key}
-        params.update(kwargs)
+    def _get(self):
+        query = {"query":"{\n  reportData{\n    report(code: \"2CfA7GBFyrajtMPZ\"){\n      startTime,endTime\n    }\n  }\n}"}
+        header = {'Authorization': 'Bearer {}'.format(self.token)}
+        response = requests.get(self.BASE_URL, headers=header, params=query)
 
-        url = parse.urljoin(self.BASE_URL,path)
-
-        return self.session.get(url,params=params)
+        return response.json()
 
 
-    def logtestmessage(self):
+
+    def _gettoken(self):
         message = "TokenID is ", self.token
         return message
 

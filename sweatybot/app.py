@@ -43,7 +43,11 @@ keyValues['SWEATY_BOT_WARCRAFTLOGS_CLIENTSECRET'])
 bot = sweat.SweatyBot(wlclient,keyValues['SWEATY_BOT_DISCORD_PREFIX'])
 
 @bot.command()
-async def test(ctx):
-    await ctx.send(bot.wl.logtestmessage())
+async def query(ctx):
+    await ctx.send(bot.wl._get())
+
+@bot.command()
+async def token(ctx):
+    await ctx.send(bot.wl._gettoken())
 
 bot.run(keyValues['SWEATY_BOT_DISCORD_TOKEN'])

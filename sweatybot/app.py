@@ -7,7 +7,6 @@ import sweatybot.sweat as sweat
 import sweatybot.wl as wl
 #pip install -U python-dotenv
 from dotenv import load_dotenv
-from discord.ext import commands
 
 
 #define the discord frontend here, and run the discord.py client
@@ -22,34 +21,27 @@ logger = logging.getLogger('discord')
 
 print("Sweaty Bot loading")
 
+#Inherit expected config from .env
+keys = ['SWEATY_BOT_DISCORD_TOKEN',
+'SWEATY_BOT_WARCRAFTLOGS_TOKEN',
+'SWEATY_BOT_DISCORD_PREFIX']
 
-
-
-# Set Discord API token
-# this is stored in .env as SWEATY_BOT_DISCORD_TOKEN and should be set before any build
-key = "SWEATY_BOT_DISCORD_TOKEN"
-#load .env into process
+keyValues = dict()
 load_dotenv()
-#pull our key pair
-discordtoken = os.getenv(key)
 
-if discordtoken is None:
-    raise RuntimeError("SWEATY_BOT_DISCORD_TOKEN environment variable not set")
-else:
-    print("Discord API Tokencode discovered: ", discordtoken)
-#end Set Discord API token
-
-# Set Warcraft Logs API token
-key = "SWEATY_BOT_WARCRAFTLOGS_TOKEN"
-warcraftlogstoken = os.getenv(key)
-if warcraftlogstoken is None:
-    raise RuntimeError("SWEATY_BOT_WARCRAFTLOGS_TOKEN environment variable not set")
-else:
-    print("Warcraft Logs API Tokencode discovered: ", warcraftlogstoken)
-
+for key in keys:
+    value = os.getenv(key)
+    if value is None:
+        raise RuntimeError(key," environment variable not set") 
+    else:  
+        keyValues[key] = value
 
 #construct bot
-wlclient = wl.WarcraftLogs(warcraftlogstoken)
-bot = sweat.SweatyBot(wlclient)
+wlclient = wl.WarcraftLogs(keyValues['SWEATY_BOT_WARCRAFTLOGS_TOKEN'])
+bot = sweat.SweatyBot(wlclient,keyValues['SWEATY_BOT_DISCORD_PREFIX'])
 
-bot.run(discordtoken)
+@bot.command()
+async def test(ctx, arg):
+    await ctx.send(arg)
+
+bot.run(keyValues['SWEATY_BOT_DISCORD_TOKEN'])

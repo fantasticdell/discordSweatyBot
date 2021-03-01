@@ -25,7 +25,7 @@ class WarcraftLogs(object):
 #_get will return content from warcraftlogs, when provided with the url path parameters
     def _get(self):
         query = {"query":"{\n  reportData{\n    report(code: \"2CfA7GBFyrajtMPZ\"){\n      startTime,endTime\n    }\n  }\n}"}
-        header = {'Authorization': 'Bearer {}'.format(self.token)}
+        header = {'Authorization': 'Bearer {}'.format(self.token['access_token'])}
         response = requests.get(self.BASE_URL, headers=header, params=query)
 
         return response.json()
